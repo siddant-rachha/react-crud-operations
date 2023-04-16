@@ -138,6 +138,7 @@ const FORM = ({ editPerson }) => {
 
         if ((nameValid && emailValid && dob && country && file) == null || (name && email && dob && country && file) == "") {
             toast.error("Please enter all inputs correctly");
+            return
         }
         else {
 
