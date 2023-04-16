@@ -7,16 +7,18 @@
 .card {
     margin: 1rem;
     width: 18rem;
+    font-family: cursive;
 }
 
 .cardBody {
     display: flex;
     flex-wrap: wrap;
-    align-items: flex-end;
+    align-items: center;
 }
 
 .cardTitle {
     margin-left: 1rem;
+    margin-top: 1rem !important;
 }
 
 .icons {
