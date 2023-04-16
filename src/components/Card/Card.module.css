@@ -1,0 +1,20 @@
+.cardImg {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+}
+
+.card {
+    margin: 1rem;
+    width: 18rem;
+}
+
+.cardBody {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.cardTitle {
+    margin: auto;
+}
