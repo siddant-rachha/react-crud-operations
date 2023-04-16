@@ -83,7 +83,6 @@ const FORM = ({ editPerson }) => {
 
     const handleEmail = (e) => {
         toast.dismiss()
-        debugger
 
         const inputEmail = e.target.value;
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -140,7 +139,6 @@ const FORM = ({ editPerson }) => {
     }
 
     const handleSubmit = (e) => {
-        debugger
         e.preventDefault()
 
         if ((!nameValid && !emailValid && dob && country && file) == null || (name && email && dob && country && file) == "") {
