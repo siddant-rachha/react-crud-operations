@@ -142,8 +142,8 @@ const FORM = ({ editPerson }) => {
         e.preventDefault()
         debugger
 
-        if (nameValid == false && emailValid == false
-            && dob == null && country == null && file == null) {
+        if (nameValid == false || emailValid == false
+            || dob == null || country == null && file == null) {
             toast.error("Please enter all inputs correctly");
             return
         }
