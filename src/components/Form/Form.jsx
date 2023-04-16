@@ -92,8 +92,12 @@ const FORM = ({ editPerson }) => {
             setEmail(inputEmail);
             setEmailValid(true);
         } else {
-            if (e.type == "blur") toast.error("Please enter a valid email address.");
-            if (e.type == "change") setEmailValid(false)
+            if (e.type == "blur") {
+                toast.error("Please enter a valid email address.");
+            }
+            if (e.type == "change") {
+                setEmailValid(false)
+            }
         }
     }
 
@@ -105,8 +109,13 @@ const FORM = ({ editPerson }) => {
             setNameValid(true)
         }
         else {
-            if (e.type == "blur") toast.error("Please enter a name input");
-            if (e.type == "change") setNameValid(false)
+            if (e.type == "blur") {
+                toast.error("Please enter a name input");
+            }
+
+            if (e.type == "change") {
+                setNameValid(false)
+            }
 
         }
 
@@ -131,9 +140,10 @@ const FORM = ({ editPerson }) => {
     }
 
     const handleSubmit = (e) => {
+        debugger
         e.preventDefault()
 
-        if ((nameValid && emailValid && dob && country && file) == null || (name && email && dob && country && file) == "") {
+        if ((!nameValid && !emailValid && dob && country && file) == null || (name && email && dob && country && file) == "") {
             toast.error("Please enter all inputs correctly");
             return
         }
