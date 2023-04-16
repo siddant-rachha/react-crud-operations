@@ -83,6 +83,7 @@ const FORM = ({ editPerson }) => {
 
     const handleEmail = (e) => {
         toast.dismiss()
+        debugger
 
         const inputEmail = e.target.value;
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -91,10 +92,8 @@ const FORM = ({ editPerson }) => {
             setEmail(inputEmail);
             setEmailValid(true);
         } else {
-            if (e.type == "blur")
-                toast.error("Please enter a valid email address.");
-            if (e.type == "change")
-                setEmailValid(false)
+            if (e.type == "blur") toast.error("Please enter a valid email address.");
+            if (e.type == "change") setEmailValid(false)
         }
     }
 
@@ -106,10 +105,8 @@ const FORM = ({ editPerson }) => {
             setNameValid(true)
         }
         else {
-            if (e.type == "blur")
-                toast.error("Please enter a name input");
-            if (e.type == "change")
-                setNameValid(false)
+            if (e.type == "blur") toast.error("Please enter a name input");
+            if (e.type == "change") setNameValid(false)
 
         }
 
