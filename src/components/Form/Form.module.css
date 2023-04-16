@@ -16,4 +16,7 @@
     height: 5rem;
     object-fit: cover;
     margin-left: 2rem;
+    border: 2px solid black;
+    box-shadow: 0 0 12x black;
+
 }

@@ -16,7 +16,11 @@ import { Image } from 'react-bootstrap';
 const FORM = ({ editPerson }) => {
 
     const [name, setName] = useState(null)
+    const [nameValid, setNameValid] = useState(false)
+
     const [email, setEmail] = useState(null)
+    const [emailValid, setEmailValid] = useState(false)
+
     const [dob, setDob] = useState(null)
     const [country, setCountry] = useState(null)
     const [file, setFile] = useState(null)
@@ -39,6 +43,8 @@ const FORM = ({ editPerson }) => {
             setCountry(editPerson.country)
             setFile(editPerson.avatar)
             setId(editPerson.id)
+            setEmailValid(true)
+            setNameValid(true)
         }
     }, [])
 
@@ -48,6 +54,16 @@ const FORM = ({ editPerson }) => {
         //check if png or jpg
         const file = e.target.files[0];
         if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
+
+
+            //check size
+            const MAX_FILE_SIZE = 300000; // 300KB
+            if (file.size > MAX_FILE_SIZE) {
+                toast.error("Upload less than 300KB");
+                e.target.value = null; // Reset the input field
+                return;
+            }
+
             //base64 string
             const reader = new FileReader();
             reader.readAsDataURL(file);
@@ -70,19 +86,31 @@ const FORM = ({ editPerson }) => {
 
         const inputEmail = e.target.value;
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
         if (emailRegex.test(inputEmail)) {
             setEmail(inputEmail);
+            setEmailValid(true);
         } else {
             if (e.type == "blur")
                 toast.error("Please enter a valid email address.");
+            if (e.type == "change")
+                setEmailValid(false)
         }
     }
 
     const handleName = (e) => {
         toast.dismiss()
-        const inputName = e.target.value;
-        if (inputName == "") {
-            toast.error("Please enter a name input");
+        const inputName = e.target.value.trim();
+        if (inputName.length > 3) {
+            setName(inputName)
+            setNameValid(true)
+        }
+        else {
+            if (e.type == "blur")
+                toast.error("Please enter a name input");
+            if (e.type == "change")
+                setNameValid(false)
+
         }
 
     }
@@ -108,7 +136,7 @@ const FORM = ({ editPerson }) => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        if ((name && email && dob && country && file) == null || (name && email && dob && country && file) == "") {
+        if ((nameValid && emailValid && dob && country && file) == null || (name && email && dob && country && file) == "") {
             toast.error("Please enter all inputs correctly");
         }
         else {
@@ -138,14 +166,14 @@ const FORM = ({ editPerson }) => {
             {console.log(name)}
             <Form.Group className="mb-3" controlId="formBasicName">
                 <Form.Label>Name</Form.Label>
-                <FontAwesomeIcon icon={faCheckCircle} className={`${classes.icon}` + " " + `${name ? classes.active : ""}`} />
-                <Form.Control type="text" placeholder="Enter Name" onChange={(e) => setName(e.target.value)} onBlur={(e) => handleName(e)} defaultValue={name ? name : ""} />
+                <FontAwesomeIcon icon={faCheckCircle} className={`${classes.icon}` + " " + `${nameValid ? classes.active : ""}`} />
+                <Form.Control type="text" placeholder="Enter Name" onChange={(e) => handleName(e)} onBlur={(e) => handleName(e)} defaultValue={name ? name : ""} />
 
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
-                <FontAwesomeIcon icon={faCheckCircle} className={`${classes.icon}` + " " + `${email ? classes.active : ""}`} />
+                <FontAwesomeIcon icon={faCheckCircle} className={`${classes.icon}` + " " + `${emailValid ? classes.active : ""}`} />
                 <Form.Control type="email" placeholder="Enter email" onChange={(e) => handleEmail(e)} onBlur={(e) => handleEmail(e)} defaultValue={email ? email : ""} />
             </Form.Group>
 
@@ -164,7 +192,9 @@ const FORM = ({ editPerson }) => {
                 <Form.Label>Avatar</Form.Label>
                 <FontAwesomeIcon icon={faCheckCircle} className={`${classes.icon}` + " " + `${file ? classes.active : ""}`} />
                 <Form.Control type="file" onChange={(e) => handleFile(e)} />
-
+                <Form.Text className="text-muted">
+                    Select less than 300KB jpeg/png. Select Square image for best results.
+                </Form.Text>
             </Form.Group>
 
             {

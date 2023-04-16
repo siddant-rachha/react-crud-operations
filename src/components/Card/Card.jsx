@@ -24,7 +24,7 @@ const CARD = ({ name, email, dob, country, avatar, id, handleEdit, handleDelete 
 
   return (
     <>
-      <Card className={classes.card}>
+      <Card className={`${classes.card}`+" shadow"}>
         <Card.Body className={classes.cardBody}>
           <Image src={avatar} className={classes.cardImg} roundedCircle />
           <Card.Title className={classes.cardTitle}>{name}</Card.Title>
