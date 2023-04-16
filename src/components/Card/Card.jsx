@@ -8,6 +8,9 @@ import { Image } from 'react-bootstrap';
 //
 
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+
 
 const CARD = ({ name, email, dob, country, avatar, id, handleEdit, handleDelete }) => {
 
@@ -25,17 +28,18 @@ const CARD = ({ name, email, dob, country, avatar, id, handleEdit, handleDelete 
         <Card.Body className={classes.cardBody}>
           <Image src={avatar} className={classes.cardImg} roundedCircle />
           <Card.Title className={classes.cardTitle}>{name}</Card.Title>
+          <Card.Body className={classes.icons}>
+            <Card.Link as={Link} to="/update" onClick={(e) => handleEditClick(e)}><FontAwesomeIcon className={classes.editIcon} icon={faEdit} /></Card.Link>
+            <Card.Link as={Link} onClick={(e) => handleDeleteClick(e)} ><FontAwesomeIcon className={`${classes.deleteIcon}`+" text-danger"} icon={faTrash} /></Card.Link>
+          </Card.Body>
 
         </Card.Body>
         <ListGroup className="list-group-flush">
-          <ListGroup.Item>{email}</ListGroup.Item>
-          <ListGroup.Item>{dob}</ListGroup.Item>
-          <ListGroup.Item>{country}</ListGroup.Item>
+          <ListGroup.Item>Email: {email}</ListGroup.Item>
+          <ListGroup.Item>Dob: {dob}</ListGroup.Item>
+          <ListGroup.Item>Country: {country}</ListGroup.Item>
         </ListGroup>
-        <Card.Body>
-          <Card.Link as={Link} to="/update" onClick={(e) => handleEditClick(e)}>Edit</Card.Link>
-          <Card.Link as={Link} onClick={(e) => handleDeleteClick(e)} >Delete</Card.Link>
-        </Card.Body>
+
       </Card>
 
 

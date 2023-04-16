@@ -4,12 +4,12 @@ import { deletePerson, getListPerson } from '../../api'
 
 
 //bootstrap
-import { Container } from 'react-bootstrap'
-import NavBar from '../../components/NavBar/NavBar'
+import { Container, Spinner } from 'react-bootstrap'
 import Card from '../../components/Card/Card'
 //
 
-import { useNavigate } from 'react-router-dom'  
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 
 const Home = ({ handleEdit }) => {
@@ -18,13 +18,14 @@ const Home = ({ handleEdit }) => {
 
     const navigate = useNavigate()
 
+
+    const getPersonList = async () => {
+
+        const list = await getListPerson()
+        setListPersons(list)
+    }
     useEffect(() => {
 
-        const getPersonList = async () => {
-
-            const list = await getListPerson()
-            setListPersons(list)
-        }
         getPersonList()
 
     }, [])
@@ -33,9 +34,10 @@ const Home = ({ handleEdit }) => {
     const handleDelete = async (id) => {
         try {
             await deletePerson(id)
-            navigate(0)
+            getPersonList()
+            toast.success("Person Deleted")
         }
-        catch(e){
+        catch (e) {
             console.log("Error while deleting: ", e)
         }
     }
@@ -45,13 +47,21 @@ const Home = ({ handleEdit }) => {
             <Container className={classes.container}>
 
                 {
-                    listPersons == null ? <h1>Loading</h1>
+                    //show spinner till null
+                    listPersons == null ? <Spinner variant='primary' />
                         :
-                        listPersons.map((person) => {
-                            return <Card handleEdit={handleEdit} key={person.id} handleDelete={() => handleDelete(person.id)}
-                                name={person.name} dob={person.dob} country={person.country} avatar={person.avatar}
-                                email={person.email} id={person.id} />
-                        })
+
+                        //if array person found
+                        (listPersons.length > 0) ?
+                            listPersons.map((person) => {
+                                return <Card handleEdit={handleEdit} key={person.id} handleDelete={() => handleDelete(person.id)}
+                                    name={person.name} dob={person.dob} country={person.country} avatar={person.avatar}
+                                    email={person.email} id={person.id} />
+                            })
+
+                            :
+                            //if array empty
+                            <h4 className='mt-5'>No Persons found. Add a Person</h4>
                 }
             </Container>
         </>

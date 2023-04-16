@@ -9,8 +9,9 @@ import Form from 'react-bootstrap/Form';
 
 
 import { toast } from 'react-toastify';
-import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Image } from 'react-bootstrap';
 
 const FORM = ({ editPerson }) => {
 
@@ -57,7 +58,7 @@ const FORM = ({ editPerson }) => {
                 toast.error("Something went wrong");
             };
         } else {
-            e.target.value = "";
+            e.target.value = null;
             toast.error("Please select a JPEG/PNG image.");
         }
 
@@ -72,14 +73,42 @@ const FORM = ({ editPerson }) => {
         if (emailRegex.test(inputEmail)) {
             setEmail(inputEmail);
         } else {
-            toast.error("Please enter a valid email address.");
+            if (e.type == "blur")
+                toast.error("Please enter a valid email address.");
         }
+    }
+
+    const handleName = (e) => {
+        toast.dismiss()
+        const inputName = e.target.value;
+        if (inputName == "") {
+            toast.error("Please enter a name input");
+        }
+
+    }
+
+    const handleCountry = (e) => {
+        toast.dismiss()
+        const inputCountry = e.target.value;
+        if (inputCountry == "") {
+            toast.error("Please enter a country input");
+        }
+
+    }
+
+    const handleDob = (e) => {
+        toast.dismiss()
+        const inputDob = e.target.value;
+        if (inputDob == "") {
+            toast.error("Please enter a Dob input");
+        }
+
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        if ((name && email && dob && country && file) == null) {
+        if ((name && email && dob && country && file) == null || (name && email && dob && country && file) == "") {
             toast.error("Please enter all inputs correctly");
         }
         else {
@@ -88,11 +117,15 @@ const FORM = ({ editPerson }) => {
             if (id == null) {
                 const person = { name, email, dob, country, avatar: file }
                 createPerson(person)
+                navigate("/")
+                toast.success("Person Added")
             }
             //update
             else {
-                const person = { name, email, dob, country, avatar: file}
+                const person = { name, email, dob, country, avatar: file }
                 updatePerson(person, id)
+                navigate("/")
+                toast.success("Person Updated")
             }
 
         }
@@ -102,34 +135,49 @@ const FORM = ({ editPerson }) => {
 
     return (
         <Form className={classes.form}>
+            {console.log(name)}
             <Form.Group className="mb-3" controlId="formBasicName">
                 <Form.Label>Name</Form.Label>
-                {/* <FontAwesomeIcon icon={faCoffee} /> */}
-                <Form.Control type="text" placeholder="Enter Name" onChange={(e) => setName(e.target.value)} defaultValue={name ? name : ""} />
+                <FontAwesomeIcon icon={faCheckCircle} className={`${classes.icon}` + " " + `${name ? classes.active : ""}`} />
+                <Form.Control type="text" placeholder="Enter Name" onChange={(e) => setName(e.target.value)} onBlur={(e) => handleName(e)} defaultValue={name ? name : ""} />
 
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" onBlur={(e) => handleEmail(e)} defaultValue={email ? email : ""} />
+                <FontAwesomeIcon icon={faCheckCircle} className={`${classes.icon}` + " " + `${email ? classes.active : ""}`} />
+                <Form.Control type="email" placeholder="Enter email" onChange={(e) => handleEmail(e)} onBlur={(e) => handleEmail(e)} defaultValue={email ? email : ""} />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicDob">
                 <Form.Label>Date of Birth</Form.Label>
-                <Form.Control type="date" onChange={(e) => setDob(e.target.value)} defaultValue={dob ? dob : ""} />
+                <FontAwesomeIcon icon={faCheckCircle} className={`${classes.icon}` + " " + `${dob ? classes.active : ""}`} />
+                <Form.Control type="date" onChange={(e) => setDob(e.target.value)} defaultValue={dob ? dob : ""} onBlur={(e) => handleDob(e)} />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicCountry">
                 <Form.Label>Country</Form.Label>
-                <Form.Control type="text" placeholder="Enter Country" onChange={(e) => setCountry(e.target.value)} defaultValue={country ? country : ""} />
+                <FontAwesomeIcon icon={faCheckCircle} className={`${classes.icon}` + " " + `${country ? classes.active : ""}`} />
+                <Form.Control type="text" placeholder="Enter Country" onChange={(e) => setCountry(e.target.value)} onBlur={(e) => handleCountry(e)} defaultValue={country ? country : ""} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicAvatar">
                 <Form.Label>Avatar</Form.Label>
+                <FontAwesomeIcon icon={faCheckCircle} className={`${classes.icon}` + " " + `${file ? classes.active : ""}`} />
                 <Form.Control type="file" onChange={(e) => handleFile(e)} />
+
             </Form.Group>
 
+            {
+                file ?
+                    <Form.Group className="mb-3" controlId="formBasicAvatar">
+                        <Form.Label>Preview Avatar</Form.Label>
+                        <Image src={file} className={classes.cardImg} roundedCircle />
+                    </Form.Group> : null
+            }
+
+
             <Button variant="primary" type="submit" className={classes.submit} onClick={(e) => handleSubmit(e)}>
-                Submit
+                {id == null ? "Create" : "Update"}
             </Button>
 
         </Form>

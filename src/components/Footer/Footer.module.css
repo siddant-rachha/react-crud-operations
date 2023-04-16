@@ -1,0 +1,13 @@
+.footer a {
+    font-weight: 100;
+    font-size: 0.8rem;
+    color: white;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2rem;
+    margin-top: auto;
+}

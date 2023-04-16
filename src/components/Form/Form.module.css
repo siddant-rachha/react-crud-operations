@@ -1,6 +1,19 @@
 .submit {
     margin-top: 1rem;
 }
-.form {
-    margin-top: 2rem;
+.icon {
+    margin: 0 4px;
+    color: #80808080;
+    opacity: 0.5;
+}
+
+.active {
+    color: green;
+}
+
+.cardImg {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    margin-left: 2rem;
 }

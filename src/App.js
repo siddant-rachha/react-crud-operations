@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import './App.css';
+import classes from './App.module.css'
 import Home from './pages/Home/Home';
 import NavBar from './components/NavBar/NavBar';
 import Create from './pages/Create/Create';
@@ -7,6 +7,9 @@ import { Route, Routes } from 'react-router-dom';
 import { useState } from 'react';
 import Toaster from './components/Toaster/Toaster';
 import Update from './pages/Update/Update';
+import Footer from './components/Footer/Footer';
+import { Breadcrumb } from 'react-bootstrap';
+import BreadCrump from './components/BreadCrump/BreadCrumb';
 
 
 
@@ -20,17 +23,24 @@ function App() {
 
   return (
     <>
-      <NavBar />
+      <div className={classes.flexWrapper}>
+        <NavBar />
 
-      <Routes>
-        <Route path="/" element={<Home handleEdit={handleEdit} />} />
-        <Route path="/create" element={<Create />} />
-        <Route path="/update" element={<Update editPerson={editPerson} />} />
+        <BreadCrump />
 
-        <Route path="*" element={<h1 className='text-center mt-5'>404 page not found</h1>} />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Home handleEdit={handleEdit} />} />
+          <Route path="/create" element={<Create />} />
+          <Route path="/update" element={<Update editPerson={editPerson} />} />
 
-      <Toaster />
+          <Route path="*" element={<h1 className='text-center mt-5'>404 page not found</h1>} />
+        </Routes>
+
+        <Footer />
+
+        <Toaster />
+
+      </div>
     </>
   );
 }
