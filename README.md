@@ -11,3 +11,4 @@
 * Form Validations
 * Location Breadcrumbs
 * Toaster notifications 
+* Animations
