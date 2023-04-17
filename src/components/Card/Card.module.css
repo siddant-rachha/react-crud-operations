@@ -8,6 +8,11 @@
     margin: 1rem;
     width: 24rem;
     font-family: 'Courier New', Courier, monospace;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.1);
 }
 
 .cardBody {
@@ -15,6 +20,14 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+}
+
+.cardBody img {
+    transition: transform 0.3s ease;
+}
+
+.cardBody img:hover {
+    transform: scale(1.1);
 }
 
 .icons {
