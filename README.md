@@ -12,3 +12,4 @@
 * Location Breadcrumbs
 * Toaster notifications 
 * Animations
+* Mobile Responsive
